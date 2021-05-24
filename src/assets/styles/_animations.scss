@@ -1,0 +1,83 @@
+.has-fade{
+  visibility: hidden;
+}
+@keyframes fade-in{
+  from{
+    visibility: hidden;
+    opacity: 0;
+  }
+  1%{
+    visibility: visible;
+    opacity: 0;
+  }
+  to{
+    visibility: visible;
+    width: 100%;
+    opacity: 1;
+  }
+}
+.fade-in{
+  animation: fade-in 300ms ease-in-out forwards;
+}
+@keyframes fade-out{
+  from{
+    visibility: visible ;
+    width: 100%;
+    opacity: 1;
+  }
+  99%{
+    visibility: visible;
+    width: 0;
+    opacity: 0;
+  }
+  to{
+    visibility: hidden;
+    width: 0;
+    opacity: 0;
+  }
+}
+.fade-out{
+  animation: fade-out 300ms ease-in-out forwards;
+}
+
+@keyframes has-in{
+  from{
+    visibility: hidden;
+    width:0;
+    opacity: 0;
+  }
+  1%{
+    visibility: visible;
+    width: calc(100% - 3rem);
+    opacity: 0;
+  }
+  to{
+    visibility: visible;
+    width: calc(100% - 3rem);
+    opacity: 1;
+  }
+}
+.has-in{
+  animation: has-in 350ms ease-in-out forwards;
+}
+
+@keyframes has-out{
+  from{
+    visibility: visible;
+    width: calc(100% - 3rem);
+    opacity: 1;
+  }
+  99%{
+    visibility: visible;
+    width: calc(100% - 3rem);
+    opacity: 0;
+  }
+  to{
+    visibility: hidden;
+    width: 0;
+    opacity: 0;
+  }
+}
+.has-out{
+  animation: has-out 150ms ease-in-out forwards;
+}

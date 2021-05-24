@@ -1,0 +1,63 @@
+
+
+.mainlogin, .about{
+  padding-top:2% ;
+  overflow: hidden;
+
+  #login_form, #about_form{
+    margin: 0 auto;
+    width: 400px;
+  }
+  @include breakpoints-up(large){  
+    min-height: calc(100vh - 140px);
+  }
+  
+  @include breakpoints-up(medium){
+    min-height: calc(100vh - 140px);
+  }
+  
+  @include breakpoints-down(small){
+    min-height: calc(100vh - 140px);
+  }
+  .btn_logo{
+    border: none;
+    background: linear-gradient(90deg, rgb(49, 203, 208) 0%, rgb(43, 83, 214) 50%, rgb(60, 43, 214) 100%);
+    transition: opacity 300ms ease-in-out; 
+    &:hover{
+      opacity: 0.8;
+      color: rgb(255, 255, 255);
+   }
+  }
+  .form-label{
+    color: rgb(32, 71, 178);
+  }
+  
+  &::before{
+    content: "";
+    width: 100%;
+    height: inherit;
+    position: absolute;
+    z-index: -1;
+    background-size: 70%;
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    @include breakpoints-up(large){ 
+      background: url('../images/bg-intro-desktop.svg');
+      width: 100%;
+      background-size: 100%;
+      background-repeat: no-repeat;
+      background-position: left -10%;
+    }
+    @include breakpoints-up(large){
+      min-height: calc(100vh - 140px);
+    }
+    
+    @include breakpoints-up(medium){
+      min-height: calc(100vh - 140px);
+    }
+    
+    @include breakpoints-down(small){
+      min-height: calc(100vh - 140px);
+    }
+  }
+}

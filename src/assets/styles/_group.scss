@@ -1,0 +1,17 @@
+#group{
+  display: none;
+  overflow: hidden;
+  background-color: $veryLightGray;
+  @include breakpoints-up(large){
+    min-height: calc(100vh - 140px);
+    background:none;
+  }
+  
+  @include breakpoints-up(medium){
+    min-height: calc(100vh - 140px);
+  }
+  
+  @include breakpoints-down(small){
+    min-height: calc(100vh - 140px);
+  }
+}
