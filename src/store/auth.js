@@ -7,6 +7,7 @@ export default {
       try{
         await firebase.auth().signInWithEmailAndPassword(email, password)
       }catch(e){
+        commit('setError', e)
         throw e
       }
     },
@@ -17,7 +18,9 @@ export default {
         await firebase.database().ref(`/users/${uid}/info`).set({
           status: resultstatus
         })
+        
       }catch(e){
+        commit('setError', e)
         throw e
       }
     }, 

@@ -3,15 +3,15 @@ import firebase from 'firebase/app'
 export default {
   state: {
     info: {}
-  },
+  }, 
   mutations: {
     setInfo(state, info) {
       state.info = info
     },
     clearInfo(state) {
-      state.info = { locale: state.info.locale }
+      state.info = { }
     }
-  },
+  },  
   actions:{
     async fetchInfo({ dispatch, commit }) {
       try {
@@ -29,5 +29,6 @@ export default {
   },
   getters: {
     info: s => s.info
-  }
+  },
+
 }

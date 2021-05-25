@@ -6,9 +6,9 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/Home',
+    path: '/',
     name: 'Home',
-    meta: {layout:'main'},
+    meta: {layout:'empty'},
     component: () => import('../views/Home.vue')
   },
   {
@@ -18,7 +18,7 @@ const routes = [
     component: () => import('../views/About.vue')
   },
   {
-    path: '/',
+    path: '/Login',
     name: 'Login',
     meta: {layout:'empty'},
     component: () => import('../views/Login.vue')

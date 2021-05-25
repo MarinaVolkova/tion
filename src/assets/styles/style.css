@@ -300,6 +300,12 @@ button, .button {
   }
 }
 
+.header .status {
+  padding: 0 10%;
+  background-color: rgba(173, 216, 230, 0.349);
+  color: #504a62;
+}
+
 .header_open .header_toggle > span:first-child {
   -webkit-transform: rotate(45deg);
           transform: rotate(45deg);

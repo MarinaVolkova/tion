@@ -28,18 +28,8 @@ export default {
   },
   components:{
     EmptyLayout, MainLayout
-  },
-
-  // data: () => ({
-  //   show: 'has-out',
-  //   stat: false
-  // }),
-  // methods: {
-  // async logout(){
-  //    await this.$store.dispatch('logout')
-  //    this.$router.push('/?message=logout')
-  //  }
-  // }
+  }
+  
 };
 
 </script>
