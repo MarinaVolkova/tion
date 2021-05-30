@@ -1,7 +1,18 @@
-.tableinfo{
+  
+  .tableinfo{
+  overflow: hidden;
+  .wraptable{
+    margin: 0 auto;
+    width: 100%;
+    overflow: auto;
+    .statuspos{
+      width: 30%;
+    }
+    
+  }
+
   @include breakpoints-up(large){
     min-height: calc(100vh - 140px);
-    background:none;
   }
   
   @include breakpoints-up(medium){
@@ -10,5 +21,26 @@
   
   @include breakpoints-down(small){
     min-height: calc(100vh - 140px);
+  } 
+  .wrapInfotable{
+    display: grid;
+
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+    gap: 0px 0px;
+    padding: 15px 0;
+    align-items: center;
+    text-align: center;
+    background-color: rgba(178, 189, 241, 0.267);
+    p{
+      margin: 0;
+    }
+    @include breakpoints-down(small){
+      font-size: 1rem;
+      grid-template-columns: 1fr;
+      p{
+      margin: 0.2rem;
+    }
+    }
   }
 }

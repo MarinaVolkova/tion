@@ -36,20 +36,6 @@
           v-else-if="($v.password.$dirty && !$v.password.minLength)"
           >Пароль должен быть минимум {{$v.password.$params.minLength.min}} символов!</small>
         </div>
-          <!-- <div class="mb-3">
-          <label class="form-label">Статус</label>
-          <select
-          id="status"
-          class="form-select"
-          aria-label="Default select example"
-          required
-          v-model.trim="resultstatus"
-        >
-          <option v-for="item in status" :key="item">
-            {{ item }}
-          </option>
-        </select>
-        </div> -->
         <button type="submit" class="btn_logo">Войти</button>
       </form>
     </section>
@@ -65,8 +51,6 @@ export default {
   data: ()=>({
     email:'',
     password:'',
-    // status:["Староста","Преподаватель","Деканат"],
-    // resultstatus:''
   }),
   validations: {
     email:{email, required},
@@ -81,7 +65,6 @@ export default {
       const formData={
         email: this.email,
         password: this.password,
-        // resultstatus:this.resultstatus
       }
       try{
         await this.$store.dispatch('login', formData)
@@ -89,7 +72,6 @@ export default {
       } catch(e) {
         alert('Ошибка при авторизации!')
       }
-      
     }
   }
 }

@@ -55,6 +55,7 @@
         </div>         
         <a
           href="#"
+          class="statusUser"
           >Статус: {{status}}</a
         > 
         <a

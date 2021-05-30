@@ -6,11 +6,15 @@ import router from './router'
 import store from './store'
 import dateFilter from '../filters/data.filter'
 
+export const eventBus = new Vue()
+
 import './assets/styles/style.css'
 
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
+
+
 
 
 Vue.config.productionTip = false

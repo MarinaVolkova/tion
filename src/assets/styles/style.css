@@ -279,13 +279,17 @@ p {
 
 button, .button {
   padding: 0.857rem 2.1875rem;
-  background: -webkit-gradient(linear, left top, right top, from(#31d06b), color-stop(50%, #2bb8d6), to(#2bb8d6));
-  background: linear-gradient(90deg, #31d06b 0%, #2bb8d6 50%, #2bb8d6 100%);
   border-radius: 50px;
   cursor: pointer;
   color: white;
   font-weight: 400;
   display: inline-block;
+}
+
+.mark, mark {
+  background-color: #87abc8 !important;
+  padding: 0;
+  margin: 0;
 }
 
 @media (max-width: 63.975em) {
@@ -338,6 +342,12 @@ button, .button {
   z-index: 1;
 }
 
+@media (max-width: 26.5625em) {
+  .header nav .statusUser {
+    display: none;
+  }
+}
+
 .header_logo {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -358,6 +368,16 @@ button, .button {
 
 .header_logo img {
   height: 5rem;
+}
+
+@media (max-width: 26.5625em) {
+  .header_logo {
+    font-size: 1.5rem;
+    padding: 15px;
+  }
+  .header_logo img {
+    display: none;
+  }
 }
 
 .header_toggle > span {
@@ -705,35 +725,35 @@ button, .button {
   }
 }
 
-.mainlogin, .about {
+.mainlogin, .about, .reggroup {
   padding-top: 2%;
   overflow: hidden;
 }
 
-.mainlogin #login_form, .mainlogin #about_form, .about #login_form, .about #about_form {
+.mainlogin #login_form, .mainlogin #about_form, .about #login_form, .about #about_form, .reggroup #login_form, .reggroup #about_form {
   margin: 0 auto;
   width: 400px;
 }
 
 @media (min-width: 64em) {
-  .mainlogin, .about {
+  .mainlogin, .about, .reggroup {
     min-height: calc(100vh - 140px);
   }
 }
 
 @media (min-width: 40em) {
-  .mainlogin, .about {
+  .mainlogin, .about, .reggroup {
     min-height: calc(100vh - 140px);
   }
 }
 
 @media (max-width: 39.9375em) {
-  .mainlogin, .about {
+  .mainlogin, .about, .reggroup {
     min-height: calc(100vh - 140px);
   }
 }
 
-.mainlogin .btn_logo, .about .btn_logo {
+.mainlogin .btn_logo, .about .btn_logo, .reggroup .btn_logo {
   border: none;
   background: -webkit-gradient(linear, left top, right top, from(#31cbd0), color-stop(50%, #2b53d6), to(#3c2bd6));
   background: linear-gradient(90deg, #31cbd0 0%, #2b53d6 50%, #3c2bd6 100%);
@@ -741,16 +761,16 @@ button, .button {
   transition: opacity 300ms ease-in-out;
 }
 
-.mainlogin .btn_logo:hover, .about .btn_logo:hover {
+.mainlogin .btn_logo:hover, .about .btn_logo:hover, .reggroup .btn_logo:hover {
   opacity: 0.8;
   color: white;
 }
 
-.mainlogin .form-label, .about .form-label {
+.mainlogin .form-label, .about .form-label, .reggroup .form-label {
   color: #2047b2;
 }
 
-.mainlogin::before, .about::before {
+.mainlogin::before, .about::before, .reggroup::before {
   content: "";
   width: 100%;
   height: inherit;
@@ -762,7 +782,7 @@ button, .button {
 }
 
 @media (min-width: 64em) {
-  .mainlogin::before, .about::before {
+  .mainlogin::before, .about::before, .reggroup::before {
     background: url("../images/bg-intro-desktop.svg");
     width: 100%;
     background-size: 100%;
@@ -772,27 +792,40 @@ button, .button {
 }
 
 @media (min-width: 64em) {
-  .mainlogin::before, .about::before {
+  .mainlogin::before, .about::before, .reggroup::before {
     min-height: calc(100vh - 140px);
   }
 }
 
 @media (min-width: 40em) {
-  .mainlogin::before, .about::before {
+  .mainlogin::before, .about::before, .reggroup::before {
     min-height: calc(100vh - 140px);
   }
 }
 
 @media (max-width: 39.9375em) {
-  .mainlogin::before, .about::before {
+  .mainlogin::before, .about::before, .reggroup::before {
     min-height: calc(100vh - 140px);
   }
+}
+
+.tableinfo {
+  overflow: hidden;
+}
+
+.tableinfo .wraptable {
+  margin: 0 auto;
+  width: 100%;
+  overflow: auto;
+}
+
+.tableinfo .wraptable .statuspos {
+  width: 30%;
 }
 
 @media (min-width: 64em) {
   .tableinfo {
     min-height: calc(100vh - 140px);
-    background: none;
   }
 }
 
@@ -805,6 +838,37 @@ button, .button {
 @media (max-width: 39.9375em) {
   .tableinfo {
     min-height: calc(100vh - 140px);
+  }
+}
+
+.tableinfo .wrapInfotable {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
+  -ms-grid-rows: 1fr;
+      grid-template-rows: 1fr;
+  gap: 0px 0px;
+  padding: 15px 0;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  text-align: center;
+  background-color: rgba(178, 189, 241, 0.267);
+}
+
+.tableinfo .wrapInfotable p {
+  margin: 0;
+}
+
+@media (max-width: 39.9375em) {
+  .tableinfo .wrapInfotable {
+    font-size: 1rem;
+    -ms-grid-columns: 1fr;
+        grid-template-columns: 1fr;
+  }
+  .tableinfo .wrapInfotable p {
+    margin: 0.2rem;
   }
 }
 

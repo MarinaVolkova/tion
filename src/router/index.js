@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-
 Vue.use(VueRouter)
 
 const routes = [
@@ -35,6 +34,19 @@ const routes = [
     name: 'Table',
     meta: {layout:'main'},
     component: () => import('../views/Table.vue')
+  },
+  ,
+  {
+    path: '/Tablered',
+    name: 'Tablered',
+    meta: {layout:'main'},
+    component: () => import('../views/Tablered.vue')
+  },
+  {
+    path: '/Reggroup',
+    name: 'Reggroup',
+    meta: {layout:'main'},
+    component: () => import('../views/Reggroup.vue')
   },
   {
     path: '/Tablebottom',

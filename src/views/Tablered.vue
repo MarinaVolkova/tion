@@ -1,5 +1,6 @@
 <template>
   <div class="table tableinfo">
+
     <div class="wrapInfotable">
       <p>Группа: {{ groupname }}</p>
       <p>Дисциплина: {{ predname }}</p>
@@ -11,7 +12,7 @@
       <thead>
         <tr class="tb">
           <th scope="col" class="fioname">Ф.И.О</th>
-          <th scope="col" v-for="elem in fullday" :value='elem' :key="elem"></input><span>data</span></th>
+          <th scope="col" v-for="elem in fullday" :value='elem' :key="elem"><input type="date" class="form-control datatr" v-if="status != 'Студент'"></input><span v-if="status == 'Студент'">data</span></th>
           <th></th>
         </tr>
       </thead>
@@ -20,26 +21,38 @@
         <tr v-for="elem in fioname" :value='elem' :key="elem" class="fioname studfio">
           <td>{{elem}}</td>
           <td v-for="elem in fullday" :value='elem' :key="elem" >
-            n
+            <select v-if="status != 'Студент'"
+              class="statuspos"
+              required>
+              <option v-for="item in statuspos" :value='item' :key="item" >
+               {{ item }}
+              </option>
+          </select>
           </td>
           <td></td>
             <tr>
               <td>Всего: {{fioname.length}} студентов <br>
                 <span v-if="allpror.length != 0">Общее число пропусков: {{allpror.length}} </span>
               </td>
-              <td v-for="elem in fullday" :value='elem' :key="elem" ></td>
+              <td v-for="elem in fullday" :value='elem' :key="elem" >
+                  <div class="form-check form-switch" v-if="status == 'Деканат' || status == 'Преподаватель'">
+                      <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                  </div>
+                </td>
               <td></td>
             </tr>
           </td>
         </tr>
         
       </tbody>
-      <tfoot class="tbod">  
+      <tfoot v-if="status != 'Студент'" class="tbod">
         <tr>
-            <th scope="row" style="width:300px">
+            <th scope="row">
               <input type="text" class="search form-control" placeholder="Найти" title="Поле ввода" v-model="fio" @input="search()">
             </th>
-            <th >
+            <th>
+              
+              
             </th>
             <th>
               
@@ -47,15 +60,14 @@
             <th>
               
             </th>
-            <th> 
-
+            <th>
+             
             </th>
-            <th style="width:250px">
-              <button class="btn btn-outline-primary saveBott" @click="" v-if="status == 'Деканат'">Получить файлы</button>
+            <th>
+              <button class="btn btn-outline-primary saveBott" @click="" v-if="status != 'Деканат'">Прикрепить файл</button>
             </th>
-            <th style="width:70px">
-              <button class="btn btn-outline-primary saveBott" @click="gored()" v-if="status != 'Студент'">Редактировать</button>
-              
+            <th>
+              <button class="btn btn-outline-primary saveBott"  @click="rec" >Сохранить</button> 
             </th>
                <th>
               
@@ -68,9 +80,10 @@
 </template>
 
 <script>
+import About from "./About";
 const intl = new Intl.NumberFormat("ru-RU");
 export default {
-  name: "tableinfo",
+  name: "tablereg",
   props: {},
   data() {
     return {
@@ -79,22 +92,20 @@ export default {
       predname: localStorage.predname,
       monthname: localStorage.monthname,
       typeZan: localStorage.typeZan,
+      week: localStorage.week,
       fullday: ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ"],
       fioname: [],
       fio: "",
       pos: [],
       statuspos: ["", "О", "Б", "Н"],
       allpror: [],
-      groupdb:[] //из бд
+      elembd:{}
     };
   },
   computed: {
     status() {
       return this.$store.getters.info.status;
     },
-    groupsall(){ 
-      return this.$store.getters.groups;
-    }
   },
   created() {},
   methods: {
@@ -122,7 +133,6 @@ export default {
           this.fioname.push(element.name);
         });
       });
-     this.groupdb = Object.keys(this.groupsall).map(key => ({...this.groupsall[key], id: key}))
     },
     save() {
       this.pos = [];
@@ -133,24 +143,21 @@ export default {
       document.querySelectorAll(".studfio").forEach((element, index) => {
         if (element.attributes[0].nodeValue == this.fioname[index]) {
           this.pos.push({
-            group: this.groupname,
-            pred: this.predname,
-            typeza: this.typeZan,
             name: element.attributes[0].nodeValue,
-            data: [],
             poss: [],
           });
         }
         element.childNodes.forEach((elem) => {
           elem.childNodes.forEach((el, ind) => {
-            
             if (i < 7) {
-              if(!el.data){
+              if (!el.data) {
                 this.pos[j].poss.push({
-                posstud: el.value,
-                data: document.querySelectorAll(".datatr")[p].value ? document.querySelectorAll(".datatr")[p].value : "data",
-              });
-             }
+                  posstud: el.value,
+                  data: document.querySelectorAll(".datatr")[p].value
+                    ? document.querySelectorAll(".datatr")[p].value
+                    : "data",
+                });
+              }
             } else if (i == 7) {
               i = 0;
               j++;
@@ -158,12 +165,57 @@ export default {
             }
             i++;
             p++;
-            if(!el.data && el.value && el.value != "О"){
-              this.allpror.push(el.value)
+            if (!el.data && el.value && el.value != "О") {
+              this.allpror.push(el.value);
             }
           });
         });
       });
+      let gr = this.$store.getters.group[this.groupname];
+      let key = [];
+      for (let elem in gr) {
+        key.push(elem)
+      }
+      
+        for(let ii = 0; ii < 15; ii++){
+          if((this.predname == gr[key[ii]].predname) && (this.typeZan == gr[key[ii]].typeZan) && (this.monthname == gr[key[ii]].monthname) && (this.week == gr[key[ii]].week)){
+            this.elembd = {
+              id: key[ii],
+              groupname: this.groupname,
+              monthname: this.monthname,
+              pos: this.pos,
+              predname: this.predname,
+              typeZan:this.typeZan,
+              week:this.week,
+            }
+        }else{
+          continue;
+        }
+      }
+      gr[Symbol.iterator] = function () {
+        return {
+          current: this.from,
+          last: this.to,
+          next() {
+            if (this.current <= this.last) {
+              return { done: false, value: this.current++ };
+            } else {
+              return { done: true };
+            }
+          },
+        };
+      };
+      console.log( this.elembd)
+      this.$router.push("/table");
+    },
+     async rec(){
+       try{
+            this.save()
+            await this.$store.dispatch('updatee',  this.elembd)
+
+       }catch(e){
+         throw e
+      }
     },
     search() {
       let enterValue = this.fio;
@@ -193,13 +245,9 @@ export default {
         });
       }
     },
-    gored(){
-      this.$router.push("/Tablered"); 
-    }
   },
   mounted() {
     this.submitInfo();
-    console.log(this.groupdb)
   },
 };
 

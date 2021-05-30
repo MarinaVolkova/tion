@@ -65,7 +65,7 @@ export default {
   data: ()=>({
     email:'',
     password:'',
-    status:["Староста","Преподаватель","Деканат"],
+    status:["Староста","Преподаватель","Деканат","Студент"],
     resultstatus:''
   }),
   validations: {

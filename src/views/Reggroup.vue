@@ -1,5 +1,5 @@
 <template>
-  <div class="about">
+  <div class="reggroup" v-if="status == 'Деканат'">
     <form id="about_form" @submit.prevent="submitInfo">
       <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">Факультет</label>
@@ -73,9 +73,8 @@
             {{ item }}
           </option>
         </select>
-        
       </div>
-          <div class="mb-3" v-if="monthname !== undefined">
+      <div class="mb-3" v-if="monthname !== undefined">
         <label class="form-label">Неделя</label>
         <select
           class="form-select"
@@ -97,14 +96,29 @@
           </option>
         </select>
       </div>
+      <div class="mb-3" v-if="week">
+        <label class="form-label">Посещаемость</label>
+        <select
+          class="form-select"
+          aria-label="Default select example"
+          v-model="pos"
+          required
+          
+        >
+          <option v-for="(item, index) in month" :value='index' :key="item">
+            {{ item }}
+          </option>
+        </select>
+      </div>
       <button type="submit" class="btn_logo" >Далее</button>
     </form>
   </div>
 </template>
 
 <script>
+
 export default {
-  name: "about",
+  name: "reggroup",
   data() {
     return {
       fuckul: [],
@@ -130,6 +144,7 @@ export default {
       ],
       monthname: "",
       fioname:[],
+      pos:[],
       week:''
     };
   },
@@ -151,25 +166,21 @@ export default {
         xhr.send();
       });
     },
-    getgroup(fuckulname, stat) {
-      this.pred = [];
-      for (let item of this.group) {
-        if (item.fuckou == fuckulname) {
-          if (item.name == stat) {
-            item.pred.forEach((elem) => this.pred.push(elem));
-          }
-        }
-      }
-    },
-    submitInfo() {
-    localStorage.fuckulname = this.fuckulname;
-    localStorage.groupname = this.groupname;
-    localStorage.predname = this.predname;
-    localStorage.monthname = this.monthname;
-    localStorage.typeZan = this.typeZan;
-    localStorage.week = this.week;
- 
-    this.$router.push("/table");
+   async submitInfo() {
+     try{
+     const group = await this.$store.dispatch(`createGroup`,{
+       groupname:this.groupname,
+       predname:this.predname,
+       typeZan:this.typeZan,
+       monthname:this.monthname,
+       pos:this.pos,
+       week:this.week
+     })
+     }catch(e){
+
+     }
+   
+    //  this.$router.push("/table");
   }
 },
   mounted() {
