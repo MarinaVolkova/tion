@@ -64,13 +64,12 @@
              
             </th>
             <th>
-              <button class="btn btn-outline-primary saveBott" @click="" v-if="status != 'Деканат'">Прикрепить файл</button>
+              <button class="btn btn-outline-primary saveBott" v-if="status != 'Деканат'">Прикрепить файл</button>
             </th>
             <th>
-              <button class="btn btn-outline-primary saveBott"  @click="rec" >Сохранить</button> 
             </th>
                <th>
-              
+              <button class="btn btn-outline-primary saveBott"  @click="rec" >Готово</button> 
             </th>
         </tr>
       </tfoot>
@@ -80,7 +79,6 @@
 </template>
 
 <script>
-import About from "./About";
 const intl = new Intl.NumberFormat("ru-RU");
 export default {
   name: "tablereg",
@@ -171,14 +169,14 @@ export default {
           });
         });
       });
-      let gr = this.$store.getters.group[this.groupname];
+      let gr = this.$store.getters.group;
       let key = [];
       for (let elem in gr) {
         key.push(elem)
       }
       
         for(let ii = 0; ii < 15; ii++){
-          if((this.predname == gr[key[ii]].predname) && (this.typeZan == gr[key[ii]].typeZan) && (this.monthname == gr[key[ii]].monthname) && (this.week == gr[key[ii]].week)){
+          if((localStorage.predname == gr[key[ii]].predname) && (localStorage.typeZan == gr[key[ii]].typeZan) && (localStorage.monthname == gr[key[ii]].monthname) && (localStorage.week == gr[key[ii]].week)){
             this.elembd = {
               id: key[ii],
               groupname: this.groupname,
@@ -205,14 +203,12 @@ export default {
           },
         };
       };
-      console.log( this.elembd)
       this.$router.push("/table");
     },
      async rec(){
        try{
-            this.save()
+         this.save()
             await this.$store.dispatch('updatee',  this.elembd)
-
        }catch(e){
          throw e
       }
@@ -220,7 +216,6 @@ export default {
     search() {
       let enterValue = this.fio;
       let liElem = document.querySelectorAll(".fioname");
-
       if (enterValue != "") {
         liElem.forEach(function (element) {
           if (
@@ -250,7 +245,6 @@ export default {
     this.submitInfo();
   },
 };
-
 function marker(str, pos, len) {
   return (
     str.slice(0, pos) +

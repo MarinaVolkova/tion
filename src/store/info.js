@@ -2,7 +2,9 @@ import firebase from 'firebase/app'
 
 export default {
   state: {
-    info: {}
+    info: {},
+    group: {},
+
   }, 
   mutations: {
     setInfo(state, info) {
@@ -11,11 +13,12 @@ export default {
     setGroup(state, group) {
       state.group = group
     },
-    setGroups(state, groups) {
-      state.groups = groups
-    },
+
     clearInfo(state) {
       state.info = { }
+    },
+    clearGroup(state) {
+      state.group = { }
     }
   },  
   actions:{
@@ -33,12 +36,6 @@ export default {
           .ref(`/group/${localStorage.groupname}`)
           .once('value')).val()
         commit('setGroup', group)
-        
-        const groups = (await firebase
-          .database()
-          .ref(`/group/${localStorage.groupname}`)
-          .once('value')).val()
-        commit('setGroups', groups)
 
       } catch (e) {
         commit('setError', e)
@@ -49,7 +46,7 @@ export default {
   getters: {
     info: s => s.info,
     group: s => s.group,
-    groups: s => s.groups,
+
   },
 
 }

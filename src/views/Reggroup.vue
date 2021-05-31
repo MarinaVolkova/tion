@@ -166,6 +166,16 @@ export default {
         xhr.send();
       });
     },
+    getgroup(fuckulname, stat) {
+      this.pred = [];
+      for (let item of this.group) {
+        if (item.fuckou == fuckulname) {
+          if (item.name == stat) {
+            item.pred.forEach((elem) => this.pred.push(elem));
+          }
+        }
+      }
+    },
    async submitInfo() {
      try{
      const group = await this.$store.dispatch(`createGroup`,{
@@ -191,6 +201,7 @@ export default {
       );
     });
   },
+
    computed: {
     status() {
       return this.$store.getters.info.status;
