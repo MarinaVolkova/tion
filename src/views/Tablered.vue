@@ -12,18 +12,21 @@
       <thead>
         <tr class="tb">
           <th scope="col" class="fioname">Ф.И.О</th>
-          <th scope="col" v-for="elem in fullday" :value='elem' :key="elem"><input type="date" class="form-control datatr" v-if="status != 'Студент'"></input><span v-if="status == 'Студент'">data</span></th>
+          <th scope="col" v-for="elem in this.tekgroup.pos[0].poss" :value='elem'><input type="date" class="form-control datatr" :value='(elem.data)'></input></th>
           <th></th>
         </tr>
       </thead>
      
       <tbody class="tablein">
-        <tr v-for="elem in fioname" :value='elem' :key="elem" class="fioname studfio">
+        <tr v-for="(elem, index) in fioname" :value='elem' class="fioname studfio">
           <td>{{elem}}</td>
-          <td v-for="elem in fullday" :value='elem' :key="elem" >
-            <select v-if="status != 'Студент'"
+          <td v-for="el in podb[index]" :value='el' >
+            <select 
               class="statuspos"
               required>
+              <option selected="selected">
+                {{el.posstud}}
+              </option>
               <option v-for="item in statuspos" :value='item' :key="item" >
                {{ item }}
               </option>
@@ -67,9 +70,10 @@
               <button class="btn btn-outline-primary saveBott" v-if="status != 'Деканат'">Прикрепить файл</button>
             </th>
             <th>
+              <button class="btn btn-outline-primary saveBott"  @click="rec" >Готово</button> 
             </th>
                <th>
-              <button class="btn btn-outline-primary saveBott"  @click="rec" >Готово</button> 
+            
             </th>
         </tr>
       </tfoot>
@@ -97,12 +101,18 @@ export default {
       pos: [],
       statuspos: ["", "О", "Б", "Н"],
       allpror: [],
-      elembd:{}
+      elembd: {},
+      groupdb: [], //из бд
+      tekgroup: [],
+      podb: [],
     };
   },
   computed: {
     status() {
       return this.$store.getters.info.status;
+    },
+    groupsall() {
+      return this.$store.getters.group;
     },
   },
   created() {},
@@ -131,6 +141,10 @@ export default {
           this.fioname.push(element.name);
         });
       });
+      this.groupdb = Object.keys(this.groupsall).map((key) => ({
+        ...this.groupsall[key],
+        id: key,
+      }));
     },
     save() {
       this.pos = [];
@@ -172,21 +186,26 @@ export default {
       let gr = this.$store.getters.group;
       let key = [];
       for (let elem in gr) {
-        key.push(elem)
+        key.push(elem);
       }
-      
-        for(let ii = 0; ii < 15; ii++){
-          if((localStorage.predname == gr[key[ii]].predname) && (localStorage.typeZan == gr[key[ii]].typeZan) && (localStorage.monthname == gr[key[ii]].monthname) && (localStorage.week == gr[key[ii]].week)){
-            this.elembd = {
-              id: key[ii],
-              groupname: this.groupname,
-              monthname: this.monthname,
-              pos: this.pos,
-              predname: this.predname,
-              typeZan:this.typeZan,
-              week:this.week,
-            }
-        }else{
+
+      for (let ii = 0; ii < 15; ii++) {
+        if (
+          localStorage.predname == gr[key[ii]].predname &&
+          localStorage.typeZan == gr[key[ii]].typeZan &&
+          localStorage.monthname == gr[key[ii]].monthname &&
+          localStorage.week == gr[key[ii]].week
+        ) {
+          this.elembd = {
+            id: key[ii],
+            groupname: this.groupname,
+            monthname: this.monthname,
+            pos: this.pos,
+            predname: this.predname,
+            typeZan: this.typeZan,
+            week: this.week,
+          };
+        } else {
           continue;
         }
       }
@@ -205,12 +224,12 @@ export default {
       };
       this.$router.push("/table");
     },
-     async rec(){
-       try{
-         this.save()
-            await this.$store.dispatch('updatee',  this.elembd)
-       }catch(e){
-         throw e
+    async rec() {
+      try {
+        this.save();
+        await this.$store.dispatch("updatee", this.elembd);
+      } catch (e) {
+        throw e;
       }
     },
     search() {
@@ -240,9 +259,29 @@ export default {
         });
       }
     },
+    trkgroup() {
+      this.groupdb.forEach((element) => {
+        if (
+          element.predname == localStorage.predname &&
+          element.typeZan == localStorage.typeZan &&
+          element.week == localStorage.week
+        ) {
+          this.tekgroup = element;
+        }
+      });
+      this.tekgroup.pos.forEach((elem) => {
+        this.podb.push(elem.poss);
+        elem.poss.forEach((el) => {
+          if (el.posstud) {
+            this.allpror.push(el.posstud);
+          }
+        });
+      });
+    },
   },
   mounted() {
     this.submitInfo();
+    this.trkgroup();
   },
 };
 function marker(str, pos, len) {

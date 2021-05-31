@@ -730,7 +730,7 @@ button, .button {
   overflow: hidden;
 }
 
-.mainlogin #login_form, .mainlogin #about_form, .about #login_form, .about #about_form, .reggroup #login_form, .reggroup #about_form {
+.mainlogin #login_form, .mainlogin #about_form, .mainlogin .addgr, .about #login_form, .about #about_form, .about .addgr, .reggroup #login_form, .reggroup #about_form, .reggroup .addgr {
   margin: 0 auto;
   width: 400px;
 }

@@ -96,9 +96,13 @@
             4
           </option>
         </select>
-      </div>
-      <button type="submit" class="btn_logo" >Далее</button>
-    </form>
+      </div >
+      <button type="submit" class="btn btn-outline-primary saveBott" style="margin-right: 20px">Далее</button>   
+    </form> 
+    <div class="addgr">
+       <button class="btn btn-outline-primary saveBott" style="margin-top: 10px" v-if="status != 'Студент'" @click="redac">Добавить</button> 
+    </div>
+   
   </div>
 </template>
 
@@ -161,6 +165,15 @@ export default {
         }
       }
     },
+    redac(){
+    localStorage.fuckulname = this.fuckulname;
+    localStorage.groupname = this.groupname;
+    localStorage.predname = this.predname;
+    localStorage.monthname = this.monthname;
+    localStorage.typeZan = this.typeZan;
+    localStorage.week = this.week;
+      this.$router.push("/Tablered");
+    },
     submitInfo() {
     localStorage.fuckulname = this.fuckulname;
     localStorage.groupname = this.groupname;
@@ -168,9 +181,10 @@ export default {
     localStorage.monthname = this.monthname;
     localStorage.typeZan = this.typeZan;
     localStorage.week = this.week;
- 
+
     this.$router.push("/table");
-  }
+    
+   }
 },
   mounted() {
     this.makeGETRequest(`/fuckul.json`).then((fuckul) => {
