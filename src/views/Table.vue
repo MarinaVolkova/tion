@@ -11,23 +11,23 @@
       <thead>
         <tr class="tb">
           <th scope="col" class="fioname">Ф.И.О</th>
-          <th scope="col" v-for="elem in fullday" :value='elem' :key="elem"></input><span>data</span></th>
+          <th scope="col" v-for="elem in this.tekgroup.pos[0].poss" :value='elem' ><span>{{(elem.data).split("-").reverse().join('.')}}</span></th>
           <th></th>
         </tr>
       </thead>
      
       <tbody class="tablein">
-        <tr v-for="elem in fioname" :value='elem' :key="elem" class="fioname studfio">
+        <tr v-for="(elem, index) in fioname" :value='elem'  class="fioname studfio">
           <td>{{elem}}</td>
-          <td v-for="elem in fullday" :value='elem' :key="elem" >
-            n
+          <td v-for="el in podb[index]" :value='el' >
+            {{el.posstud}}
           </td>
           <td></td>
             <tr>
               <td>Всего: {{fioname.length}} студентов <br>
                 <span v-if="allpror.length != 0">Общее число пропусков: {{allpror.length}} </span>
               </td>
-              <td v-for="elem in fullday" :value='elem' :key="elem" ></td>
+              <td v-for="elem in fullday" :value='elem'  ></td>
               <td></td>
             </tr>
           </td>
@@ -70,7 +70,7 @@
 <script>
 const intl = new Intl.NumberFormat("ru-RU");
 export default {
-  name: "Table",
+  name: "tableinfo",
   props: {},
   data() {
     return {
@@ -85,16 +85,18 @@ export default {
       pos: [],
       statuspos: ["", "О", "Б", "Н"],
       allpror: [],
-      groupdb:[] //из бд
+      groupdb: [], //из бд
+      tekgroup: [],
+      podb:[],
     };
   },
   computed: {
     status() {
       return this.$store.getters.info.status;
     },
-    groupsall(){ 
+    groupsall() {
       return this.$store.getters.group;
-    }
+    },
   },
   created() {},
   methods: {
@@ -122,52 +124,15 @@ export default {
           this.fioname.push(element.name);
         });
       });
-     this.groupdb = Object.keys(this.groupsall).map(key => ({...this.groupsall[key], id: key}))
-    },
-    save() {
-      this.pos = [];
-      this.allpror = [];
-      let i = 0;
-      let j = 0;
-      let p = -1;
-      document.querySelectorAll(".studfio").forEach((element, index) => {
-        if (element.attributes[0].nodeValue == this.fioname[index]) {
-          this.pos.push({
-            group: this.groupname,
-            pred: this.predname,
-            typeza: this.typeZan,
-            name: element.attributes[0].nodeValue,
-            data: [],
-            poss: [],
-          });
-        }
-        element.childNodes.forEach((elem) => {
-          elem.childNodes.forEach((el, ind) => {
-            
-            if (i < 7) {
-              if(!el.data){
-                this.pos[j].poss.push({
-                posstud: el.value,
-                data: document.querySelectorAll(".datatr")[p].value ? document.querySelectorAll(".datatr")[p].value : "data",
-              });
-             }
-            } else if (i == 7) {
-              i = 0;
-              j++;
-              p = -1;
-            }
-            i++;
-            p++;
-            if(!el.data && el.value && el.value != "О"){
-              this.allpror.push(el.value)
-            }
-          });
-        });
-      });
+      this.groupdb = Object.keys(this.groupsall).map((key) => ({
+        ...this.groupsall[key],
+        id: key,
+      }));
     },
     search() {
       let enterValue = this.fio;
       let liElem = document.querySelectorAll(".fioname");
+
       if (enterValue != "") {
         liElem.forEach(function (element) {
           if (
@@ -192,15 +157,36 @@ export default {
         });
       }
     },
-    gored(){
-      this.$router.push("/Tablered"); 
-    }
+    gored() {
+      this.$router.push("/Tablered");
+    },
+    trkgroup() {
+      this.groupdb.forEach((element) => {
+        if (
+          element.predname == localStorage.predname &&
+          element.typeZan == localStorage.typeZan &&
+          element.week == localStorage.week
+        ) {
+          this.tekgroup = element;
+          
+        }
+      });
+     this.tekgroup.pos.forEach(elem => {
+       this.podb.push(elem.poss)
+       elem.poss.forEach(el => {
+         if(el.posstud){
+           this.allpror.push(el.posstud)
+         }
+       });
+    });
+    },
   },
   mounted() {
     this.submitInfo();
-    console.log(this.groupdb)
+     this.trkgroup();
   },
 };
+
 function marker(str, pos, len) {
   return (
     str.slice(0, pos) +
