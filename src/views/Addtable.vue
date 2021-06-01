@@ -12,78 +12,48 @@
       <thead>
         <tr class="tb">
           <th scope="col" class="fioname">Ф.И.О</th>
-          <th scope="col" v-for="elem in this.tekgroup.pos[0].poss" :value='elem'><input type="date" class="form-control datatr" :value='(elem.data)'></input></th>
-      
+          <th scope="col" v-for="elem in fullday" :value='elem'><input type="date" class="form-control datatr"></input></th>
+          <th></th>
         </tr>
       </thead>
      
       <tbody class="tablein">
         <tr v-for="(elem, index) in fioname" :value='elem' class="fioname studfio">
           <td>{{elem}}</td>
-          <td v-for="(el, ind) in podb[index]" :value='el'>
+          <td v-for="el in fullday" :value='el'>
             <select 
-             
               class="statuspos"
               required>
-              <option selected="selected" >
-                {{el.posstud}}
-              </option>
-              <option v-for="item in statuspos" :value='item' :key="item">
+              <option v-for="item in statuspos" :value='item' :key="item" >
                {{ item }}
               </option>
           </select>
           </td>
-        
+          <td></td>
             <tr>
               <td>Всего: {{fioname.length}} студентов <br>
                 <span v-if="allpror.length != 0">Общее число пропусков: {{allpror.length}} </span>
               </td>
-                              <td>
+              <td v-for="elem in fullday" :value='elem' :key="elem" >
                   <div class="form-check form-switch" v-if="status == 'Деканат' || status == 'Преподаватель'">
-                      <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" v-model="checkbox0">
-                      
+                      <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
                   </div>
                 </td>
-                              <td>
-                  <div class="form-check form-switch" v-if="status == 'Деканат' || status == 'Преподаватель'">
-                      <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" v-model="checkbox1">
-                  </div>
-                </td>
-                              <td>
-                  <div class="form-check form-switch" v-if="status == 'Деканат' || status == 'Преподаватель'">
-                      <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" v-model="checkbox2">
-                  </div>
-                </td>
-                              <td>
-                  <div class="form-check form-switch" v-if="status == 'Деканат' || status == 'Преподаватель'">
-                      <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" v-model="checkbox3">
-                  </div>
-                </td>
-                              <td>
-                  <div class="form-check form-switch" v-if="status == 'Деканат' || status == 'Преподаватель'">
-                      <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" v-model="checkbox4">
-                  </div>
-                </td>
-                              <td>
-                  <div class="form-check form-switch" v-if="status == 'Деканат' || status == 'Преподаватель'">
-                      <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" v-model="checkbox5">
-                  </div>
-                </td>
-            
+              <td></td>
             </tr>
           </td>
         </tr>
         
       </tbody>
-      <tfoot v-if="status != 'Студент'" class="tbod">
+       <tfoot v-if="status != 'Студент'" class="tbod">
         <tr>
             <td scope="row" >
               <input type="text" class="search form-control" placeholder="Найти" title="Поле ввода" v-model="fio" @input="search()">
             </td>
-            <td colspan="5">
-                <input style="width: 300px" type="file" multiple accept="image/jpeg" @change="detectFiles($event.target.files)"><span class="badge bg-primary" v-if="flag">Успешно!</span>
+            <td colspan="4">
+                <input type="file"  class="form-control" name="f" multiple id="file" ref="file" v-on:change="handleFileUpload()" style="width: 300px"> 
             </td>
-           
+            <td><button class="btn btn-outline-primary saveBott"  @click="delfiles" v-if="file.length > 0">Удалить файлы</button></td>
             <td>
                 
                 <button class="btn btn-outline-primary saveBott"  @click="rec" >Готово</button> 
@@ -98,8 +68,6 @@
 </template>
 
 <script>
-import firebase from 'firebase/app'
-var storage = firebase.app().storage("gs://tionssuwt.appspot.com/");
 const intl = new Intl.NumberFormat("ru-RU");
 export default {
   name: "tablereg",
@@ -112,43 +80,20 @@ export default {
       monthname: localStorage.monthname,
       typeZan: localStorage.typeZan,
       week: localStorage.week,
-      fullday: ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ"], 
+      fullday: ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ"],
       fioname: [],
       fio: "",
       pos: [],
       statuspos: ["", "О", "Б", "Н"],
       allpror: [],
       elembd: {},
-      groupdb: [], //из бд
-      tekgroup: [],
-      podb: [],
-      sost: true,
-      file: File,
-      uploadTask: '',
-      flag:false,
-      checkbox0: "",
-      checkbox1: "",
-      checkbox2: "",
-      checkbox3: "",
-      checkbox4: "",
-      checkbox5: "",
-      chek: [
-        this.checkbox0,
-        this.checkbox1,
-        this.checkbox2,
-        this.checkbox3,
-        this.checkbox4,
-        this.checkbox5,
-      ],
+      file: [],
     };
   },
   computed: {
     status() {
       return this.$store.getters.info.status;
-    },
-    groupsall() {
-      return this.$store.getters.group;
-    },
+    }
   },
   created() {},
   methods: {
@@ -176,22 +121,18 @@ export default {
           this.fioname.push(element.name);
         });
       });
-      this.groupdb = Object.keys(this.groupsall).map((key) => ({
-        ...this.groupsall[key],
-        id: key,
-      }));
+
+      
     },
- detectFiles (fileList) {
-      Array.from(Array(fileList.length).keys()).map( x => {
-        this.upload(fileList[x])
-      })
+     handleFileUpload(){
+      this.file.push(this.$refs.file.files);
+      console.dir(this.file)
     },
-  upload(file) {
-      this.uploadTask = storage
-        .ref(`${localStorage.groupname}`)
-        .child(file.name)
-        .put(file)
+    delfiles(){
+      this.file = []
     },
+
+
     save() {
       this.pos = [];
       this.allpror = [];
@@ -235,7 +176,7 @@ export default {
         key.push(elem);
       }
 
-      for (let ii = 0; ii < 15; ii++) {
+      for (let ii = 0; ii < key.length; ii++) {
         if (
           localStorage.predname == gr[key[ii]].predname &&
           localStorage.typeZan == gr[key[ii]].typeZan &&
@@ -250,6 +191,7 @@ export default {
             predname: this.predname,
             typeZan: this.typeZan,
             week: this.week,
+      
           };
         } else {
           continue;
@@ -268,7 +210,7 @@ export default {
           },
         };
       };
-      this.$router.push("/table");
+      this.$router.push("/About");
     },
     async rec() {
       try {
@@ -305,43 +247,9 @@ export default {
         });
       }
     },
-    trkgroup() {
-      this.groupdb.forEach((element) => {
-        if (
-          element.predname == localStorage.predname &&
-          element.typeZan == localStorage.typeZan &&
-          element.week == localStorage.week
-        ) {
-          this.tekgroup = element;
-        }
-      });
-      this.tekgroup.pos.forEach((elem) => {
-        this.podb.push(elem.poss);
-        elem.poss.forEach((el) => {
-          if (el.posstud) {
-            this.allpror.push(el.posstud);
-          }
-        });
-      });
-    },
-  },
-  watch: {
-    uploadTask: function() {
-      this.uploadTask.on('state_changed', sp => {
-        this.progressUpload = Math.floor(sp.bytesTransferred / sp.totalBytes * 100)
-      }, 
-      null, 
-      () => {
-        this.uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
-          this.$emit('url', downloadURL)
-          this.flag = true
-        })
-      })
-    }
   },
   mounted() {
     this.submitInfo();
-    this.trkgroup();
   },
 };
 function marker(str, pos, len) {

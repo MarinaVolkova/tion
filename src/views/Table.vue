@@ -6,13 +6,13 @@
       <p>Тип занятий: {{ typeZan }}</p>
     </div>
     <div class="wraptable">
-    <table class="table table-striped table-hover table-fixed">
+    <table class="table table-striped table-hover table-fixed table-bordered">
 
       <thead>
         <tr class="tb">
           <th scope="col" class="fioname">Ф.И.О</th>
           <th scope="col" v-for="elem in this.tekgroup.pos[0].poss" :value='elem' ><span>{{(elem.data).split("-").reverse().join('.')}}</span></th>
-          <th></th>
+
         </tr>
       </thead>
      
@@ -22,13 +22,13 @@
           <td v-for="el in podb[index]" :value='el' >
             {{el.posstud}}
           </td>
-          <td></td>
+         
             <tr>
               <td>Всего: {{fioname.length}} студентов <br>
                 <span v-if="allpror.length != 0">Общее число пропусков: {{allpror.length}} </span>
               </td>
               <td v-for="elem in fullday" :value='elem'  ></td>
-              <td></td>
+         
             </tr>
           </td>
         </tr>
@@ -36,30 +36,14 @@
       </tbody>
       <tfoot class="tbod">  
         <tr>
-            <th scope="row" style="width:300px">
+            <td scope="row" style="width:300px">
               <input type="text" class="search form-control" placeholder="Найти" title="Поле ввода" v-model="fio" @input="search()">
-            </th>
-            <th >
-            </th>
-            <th>
-              
-            </th>
-            <th>
-              
-            </th>
-            <th> 
-
-            </th>
-            <th style="width:250px">
-              <button class="btn btn-outline-primary saveBott" @click="" v-if="status == 'Деканат'">Получить файлы</button>
-            </th>
-            <th style="width:70px">
-              <button class="btn btn-outline-primary saveBott" @click="gored()" v-if="status != 'Студент'">Редактировать</button>
-              
-            </th>
-               <th>
-              
-            </th>
+            </td>
+            <td colspan="7">
+              <button class="btn btn-outline-primary saveBott"  @click="" v-if="status == 'Деканат'">Получить файлы</button>
+              <button class="btn btn-outline-primary saveBott" style="margin: 0 10px" @click="gored()" v-if="status != 'Студент'">Редактировать</button>
+              <button class="btn btn-outline-primary saveBott" @click="ex()">Назад</button>
+            </td>
         </tr>
       </tfoot>
     </table>
@@ -179,6 +163,9 @@ export default {
          }
        });
     });
+    },
+     async ex() {
+      this.$router.push("/About");
     },
   },
   mounted() {

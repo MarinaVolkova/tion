@@ -726,7 +726,7 @@ button, .button {
 }
 
 .mainlogin, .about, .reggroup {
-  padding-top: 2%;
+  padding-top: 10px;
   overflow: hidden;
 }
 
@@ -793,7 +793,7 @@ button, .button {
 
 @media (min-width: 64em) {
   .mainlogin::before, .about::before, .reggroup::before {
-    min-height: calc(100vh - 140px);
+    min-height: calc(100vh - 100px);
   }
 }
 
@@ -809,39 +809,39 @@ button, .button {
   }
 }
 
-.tableinfo {
+.tableinfo, .addtable {
   overflow: hidden;
 }
 
-.tableinfo .wraptable {
+.tableinfo .wraptable, .addtable .wraptable {
   margin: 0 auto;
   width: 100%;
   overflow: auto;
 }
 
-.tableinfo .wraptable .statuspos {
+.tableinfo .wraptable .statuspos, .addtable .wraptable .statuspos {
   width: 30%;
 }
 
 @media (min-width: 64em) {
-  .tableinfo {
+  .tableinfo, .addtable {
     min-height: calc(100vh - 140px);
   }
 }
 
 @media (min-width: 40em) {
-  .tableinfo {
+  .tableinfo, .addtable {
     min-height: calc(100vh - 140px);
   }
 }
 
 @media (max-width: 39.9375em) {
-  .tableinfo {
+  .tableinfo, .addtable {
     min-height: calc(100vh - 140px);
   }
 }
 
-.tableinfo .wrapInfotable {
+.tableinfo .wrapInfotable, .addtable .wrapInfotable {
   display: -ms-grid;
   display: grid;
   -ms-grid-columns: 1fr 1fr 1fr;
@@ -857,17 +857,17 @@ button, .button {
   background-color: rgba(178, 189, 241, 0.267);
 }
 
-.tableinfo .wrapInfotable p {
+.tableinfo .wrapInfotable p, .addtable .wrapInfotable p {
   margin: 0;
 }
 
 @media (max-width: 39.9375em) {
-  .tableinfo .wrapInfotable {
+  .tableinfo .wrapInfotable, .addtable .wrapInfotable {
     font-size: 1rem;
     -ms-grid-columns: 1fr;
         grid-template-columns: 1fr;
   }
-  .tableinfo .wrapInfotable p {
+  .tableinfo .wrapInfotable p, .addtable .wrapInfotable p {
     margin: 0.2rem;
   }
 }

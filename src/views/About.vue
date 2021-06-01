@@ -15,7 +15,7 @@
           </option>
         </select>
       </div>
-      <div class="mb-3" v-if="fuckulname">
+      <div class="mb-3" >
         <label for="exampleInputEmail1" class="form-label">Группа</label>
         <select
           class="form-select"
@@ -34,7 +34,7 @@
           </option>
         </select>
       </div>
-      <div class="mb-3" v-if="groupname">
+      <div class="mb-3" >
         <label for="exampleInputEmail1" class="form-label">Предмет</label>
         <select
           v-model.trim="predname"
@@ -47,7 +47,7 @@
           </option>
         </select>
       </div>
-      <div class="mb-3" v-if="predname">
+      <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">Тип занятий</label>
         <select
           v-model.trim="typeZan"
@@ -60,7 +60,7 @@
           </option>
         </select>
       </div>
-      <div class="mb-3" v-if="typeZan">
+      <div class="mb-3">
         <label class="form-label">Месяц</label>
         <select
           class="form-select"
@@ -75,7 +75,7 @@
         </select>
         
       </div>
-          <div class="mb-3" v-if="monthname !== undefined">
+          <div class="mb-3" >
         <label class="form-label">Неделя</label>
         <select
           class="form-select"
@@ -172,7 +172,7 @@ export default {
     localStorage.monthname = this.monthname;
     localStorage.typeZan = this.typeZan;
     localStorage.week = this.week;
-      this.$router.push("/Tablered");
+      this.$router.push("/Addtable");
     },
     submitInfo() {
     localStorage.fuckulname = this.fuckulname;

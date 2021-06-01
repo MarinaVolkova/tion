@@ -11,6 +11,7 @@ export const eventBus = new Vue()
 import './assets/styles/style.css'
 
 import firebase from 'firebase/app'
+import storage from "firebase/storage";
 import 'firebase/auth'
 import 'firebase/database'
 
@@ -26,6 +27,7 @@ Vue.filter('date', dateFilter)
 firebase.initializeApp({
   apiKey: "AIzaSyDrcD6AXLzw9DY5CfxBLVrSORuVEqiRAQU",
   authDomain: "tionssuwt.firebaseapp.com",
+  databaseURL: "https://tionssuwt-default-rtdb.firebaseio.com",
   projectId: "tionssuwt",
   storageBucket: "tionssuwt.appspot.com",
   messagingSenderId: "790834574937",

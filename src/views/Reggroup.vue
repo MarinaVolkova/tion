@@ -2,7 +2,7 @@
   <div class="reggroup" v-if="status == 'Деканат'">
     <form id="about_form" @submit.prevent="submitInfo">
       <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Факультет</label>
+        <span for="exampleInputEmail1" class="form-label">Факультет</span>
         <select
           class="form-select"
           aria-label="Default select example"
@@ -15,8 +15,8 @@
           </option>
         </select>
       </div>
-      <div class="mb-3" v-if="fuckulname">
-        <label for="exampleInputEmail1" class="form-label">Группа</label>
+      <div class="mb-3">
+        <span for="exampleInputEmail1" class="form-label">Группа</span>
         <select
           class="form-select"
           aria-label="Default select example"
@@ -34,8 +34,8 @@
           </option>
         </select>
       </div>
-      <div class="mb-3" v-if="groupname">
-        <label for="exampleInputEmail1" class="form-label">Предмет</label>
+      <div class="mb-3" >
+        <span for="exampleInputEmail1" class="form-label">Предмет</span>
         <select
           v-model.trim="predname"
           class="form-select"
@@ -47,8 +47,8 @@
           </option>
         </select>
       </div>
-      <div class="mb-3" v-if="predname">
-        <label for="exampleInputEmail1" class="form-label">Тип занятий</label>
+      <div class="mb-3">
+        <span for="exampleInputEmail1" class="form-label">Тип занятий</span>
         <select
           v-model.trim="typeZan"
           class="form-select"
@@ -60,8 +60,8 @@
           </option>
         </select>
       </div>
-      <div class="mb-3" v-if="typeZan">
-        <label class="form-label">Месяц</label>
+      <div class="mb-3" >
+        <span class="form-label">Месяц</span>
         <select
           class="form-select"
           aria-label="Default select example"
@@ -74,8 +74,8 @@
           </option>
         </select>
       </div>
-      <div class="mb-3" v-if="monthname !== undefined">
-        <label class="form-label">Неделя</label>
+      <div class="mb-3" >
+        <span class="form-label">Неделя</span>
         <select
           class="form-select"
           aria-label="Default select example"
@@ -96,8 +96,8 @@
           </option>
         </select>
       </div>
-      <div class="mb-3" v-if="week">
-        <label class="form-label">Посещаемость</label>
+      <div class="mb-3">
+        <span class="form-label">Посещаемость</span>
         <select
           class="form-select"
           aria-label="Default select example"
@@ -105,12 +105,29 @@
           required
           
         >
-          <option v-for="(item, index) in month" :value='index' :key="item">
-            {{ item }}
+          <option>
+           Учитывается
           </option>
         </select>
       </div>
-      <button type="submit" class="btn_logo" >Далее</button>
+      <!-- <div class="mb-3" >
+        <span class="form-label">Возможность прикрепления файлов</span>
+        <select
+          class="form-select"
+          aria-label="Default select example"
+          v-model="file"
+          required
+          
+        >
+          <option>
+        Да
+          </option>
+                 <option>
+        Нет
+          </option>
+        </select>
+      </div> -->
+      <button type="submit" class="btn btn-outline-primary saveBott" >Далее</button>
     </form>
   </div>
 </template>
@@ -145,7 +162,8 @@ export default {
       monthname: "",
       fioname:[],
       pos:[],
-      week:''
+      week:'',
+      file:''
     };
   },
   methods: {
@@ -184,7 +202,8 @@ export default {
        typeZan:this.typeZan,
        monthname:this.monthname,
        pos:this.pos,
-       week:this.week
+       week:this.week,
+
      })
      }catch(e){
 

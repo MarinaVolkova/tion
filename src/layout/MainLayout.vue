@@ -31,6 +31,8 @@
           <transition v-if="show == 'has-in'">
             <div class="header_menu has-in">
               <!-- <router-link to="/">Главная</router-link> -->
+              <router-link to="/Registr" v-if="this.$store.getters.info.status == 'Деканат'">Добавить пользователя</router-link>
+              <router-link to="/Reggroup" v-if="this.$store.getters.info.status == 'Деканат'">Добавить группу</router-link>
               <router-link to="/About">Посещаемость</router-link>
               <a href="http://www.ssuwt.ru/" target="_blank">Сайт СГУВТ</a>
 
@@ -40,6 +42,8 @@
           <transition v-else>
             <div class="header_menu has-out">
               <!-- <router-link to="/">Главная</router-link> -->
+              <router-link to="/Registr" v-if="this.$store.getters.info.status == 'Деканат'">Добавить пользователя</router-link>
+              <router-link to="/Reggroup" v-if="this.$store.getters.info.status == 'Деканат'">Добавить группу</router-link>
               <router-link to="/About">Посещаемость</router-link>
               <a href="http://www.ssuwt.ru/" target="_blank">Сайт СГУВТ</a>
               <a href="#" class="" @click.prevent="logout">Выйти</a>
@@ -49,6 +53,8 @@
 
         <div class="header_links hide-for-mobile">
           <!-- <router-link to="/">Главная</router-link> -->
+               <router-link to="/Registr" v-if="this.$store.getters.info.status == 'Деканат'">Добавить пользователя</router-link>
+              <router-link to="/Reggroup" v-if="this.$store.getters.info.status == 'Деканат'">Добавить группу</router-link>
           <router-link to="/About">Посещаемость</router-link>
           <a href="http://www.ssuwt.ru/" target="_blank">Сайт СГУВТ</a>                
  

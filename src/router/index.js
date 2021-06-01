@@ -43,6 +43,12 @@ const routes = [
     component: () => import('../views/Tablered.vue')
   },
   {
+    path: '/Addtable',
+    name: 'Addtable',
+    meta: {layout:'main'},
+    component: () => import('../views/Addtable.vue')
+  },
+  {
     path: '/Reggroup',
     name: 'Reggroup',
     meta: {layout:'main'},
