@@ -44,4 +44,15 @@
     }
     }
   }
+  #files{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    a{
+      display: block;
+    }
+  }
 }

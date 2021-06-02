@@ -51,9 +51,9 @@
               <input type="text" class="search form-control" placeholder="Найти" title="Поле ввода" v-model="fio" @input="search()">
             </td>
             <td colspan="4">
-                <input type="file"  class="form-control" name="f" multiple id="file" ref="file" v-on:change="handleFileUpload()" style="width: 300px"> 
+                
             </td>
-            <td><button class="btn btn-outline-primary saveBott"  @click="delfiles" v-if="file.length > 0">Удалить файлы</button></td>
+            <td></td>
             <td>
                 
                 <button class="btn btn-outline-primary saveBott"  @click="rec" >Готово</button> 
@@ -93,7 +93,10 @@ export default {
   computed: {
     status() {
       return this.$store.getters.info.status;
-    }
+    },
+      groupsall() {
+      return this.$store.getters.group;
+    },
   },
   created() {},
   methods: {
@@ -121,18 +124,12 @@ export default {
           this.fioname.push(element.name);
         });
       });
-
+      this.groupdb = Object.keys(this.groupsall).map((key) => ({
+        ...this.groupsall[key],
+        id: key,
+      }));
       
     },
-     handleFileUpload(){
-      this.file.push(this.$refs.file.files);
-      console.dir(this.file)
-    },
-    delfiles(){
-      this.file = []
-    },
-
-
     save() {
       this.pos = [];
       this.allpror = [];

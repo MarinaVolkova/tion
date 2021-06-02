@@ -32,6 +32,7 @@
                {{ item }}
               </option>
           </select>
+       
           </td>
         
             <tr>
@@ -235,7 +236,7 @@ export default {
         key.push(elem);
       }
 
-      for (let ii = 0; ii < 15; ii++) {
+      for (let ii = 0; ii < key.length; ii++) {
         if (
           localStorage.predname == gr[key[ii]].predname &&
           localStorage.typeZan == gr[key[ii]].typeZan &&

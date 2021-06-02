@@ -7,7 +7,7 @@
     </div>
     <div class="wraptable">
     <table class="table table-striped table-hover table-fixed table-bordered">
-
+     
       <thead>
         <tr class="tb">
           <th scope="col" class="fioname">Ф.И.О</th>
@@ -40,18 +40,21 @@
               <input type="text" class="search form-control" placeholder="Найти" title="Поле ввода" v-model="fio" @input="search()">
             </td>
             <td colspan="7">
-              <button class="btn btn-outline-primary saveBott"  @click="" v-if="status == 'Деканат'">Получить файлы</button>
+              <button class="btn btn-outline-primary saveBott"  @click="gofiles()" v-if="status == 'Деканат'">Получить файлы</button>
               <button class="btn btn-outline-primary saveBott" style="margin: 0 10px" @click="gored()" v-if="status != 'Студент'">Редактировать</button>
               <button class="btn btn-outline-primary saveBott" @click="ex()">Назад</button>
             </td>
         </tr>
       </tfoot>
-    </table>
+    </table><div id="files"></div>
     </div>
   </div>
 </template>
 
 <script>
+import firebase from "firebase/app";
+var storage = firebase.app().storage("gs://tionssuwt.appspot.com/");
+
 const intl = new Intl.NumberFormat("ru-RU");
 export default {
   name: "tableinfo",
@@ -71,7 +74,7 @@ export default {
       allpror: [],
       groupdb: [], //из бд
       tekgroup: [],
-      podb:[],
+      podb: [],
     };
   },
   computed: {
@@ -101,6 +104,38 @@ export default {
         xhr.send();
       });
     },
+
+    gofiles() {
+      let files = [];
+      let elem = document.getElementById("files");
+      storage
+        .ref(`${localStorage.groupname}`)
+        .listAll()
+        .then(function (result) {
+          result.items.forEach(function (imageRef) {
+            displayImage(imageRef);
+          });
+        })
+        .catch(function (error) {
+          // Handle any errors
+        });
+      function displayImage(imageRef) {
+        imageRef
+          .getDownloadURL()
+          .then(function (url) {
+            files.push(url);
+            let a = document.createElement("a");
+            a.innerHTML = `<a href=${url} download target="_blank">Файл</a>`;
+            if (elem.childNodes.length <= files.length) {
+              elem.appendChild(a);
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+    },
+
     submitInfo() {
       this.fioname = [];
       this.makeGETRequest(`/${this.groupname}.json`).then((fio) => {
@@ -152,25 +187,24 @@ export default {
           element.week == localStorage.week
         ) {
           this.tekgroup = element;
-          
         }
       });
-     this.tekgroup.pos.forEach(elem => {
-       this.podb.push(elem.poss)
-       elem.poss.forEach(el => {
-         if(el.posstud){
-           this.allpror.push(el.posstud)
-         }
-       });
-    });
+      this.tekgroup.pos.forEach((elem) => {
+        this.podb.push(elem.poss);
+        elem.poss.forEach((el) => {
+          if (el.posstud) {
+            this.allpror.push(el.posstud);
+          }
+        });
+      });
     },
-     async ex() {
+    async ex() {
       this.$router.push("/About");
     },
   },
   mounted() {
     this.submitInfo();
-     this.trkgroup();
+    this.trkgroup();
   },
 };
 

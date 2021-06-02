@@ -872,6 +872,28 @@ button, .button {
   }
 }
 
+.tableinfo #files, .addtable #files {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  width: 100%;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.tableinfo #files a, .addtable #files a {
+  display: block;
+}
+
 .footer {
   background-color: #2d314d;
   color: white;
